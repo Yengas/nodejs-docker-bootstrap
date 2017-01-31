@@ -4,7 +4,7 @@ This is a sample project that implements a basic Nodejs rest api server that use
 For a detailed explanation of choices made in this project, please see [the article](https://yengas.github.io/docker-compose-node/).
 
 It features:
-- hot reloading
+- auto restarting
 - pre-populating a database
 - building a packaged/runnable Docker image
 - service discovery  with Docker 
@@ -13,7 +13,7 @@ It features:
 ## Three ways to run this application
 This application is very flexible in terms of how you can run it. Below are three different ways to run this application. Check [application/README.md](./application/) after running this project to see which endpoints are avaliable.
 
-### 1. On a local working environment with hot reloading
+### 1. On a local working environment with auto restarting
 [docker-compose.yml](./docker-compose.yml) file located at the root of this application is configured to run both the backend application and a Mariadb instance. You can use `docker-compose up` to run the project and access it through [http://localhost:8080](http://localhost:8080). The docker-compose file also exposes the port `3306` of the Mariadb application, so you can connect to it with a database client.
  
 You can use `docker-compose down` command to stop and remove the containers started this way. If you would like to put the Mariadb database back to its initial state, use `docker-compose down -v` this command will remove the named volume created by the docker-compose file and Mariadb will import the sql files located at [database/backup](./database/backup) once you run `docker-compose up` again.  

@@ -10,7 +10,7 @@ This application gets all of its variable configurations through environment var
 ## Dockerfiles
 There are 2 Dockerfiles that come with this application. [Dockerfile](./Dockerfile) is the default file. This file creates a docker image that includes all of the source code and required packages. It can be pushed to any Docker repository to be run on Container Runtimes. Or any other machine that doesn't have the source code for this program. 
 
-[Dockerfile-Development](./Dockerfile-development) is the Dockerfile that builds a docker image which doesn't have the source code of this applications inside. It is intended to be used in local development, where you have the source code of this application. It features hot-reloading and auto-restarting.
+[Dockerfile-Development](./Dockerfile-development) is the Dockerfile that builds a docker image which doesn't have the source code of this applications inside. It is intended to be used in local development, where you have the source code of this application. It features auto-restarting.
 
 ## Checking if application works
 You can go to [http://localhost:8080/healthz](http://localhost:8080/healthz). To check if the container started successfully. Please replace localhost with the ip address of your docker host.
