@@ -24,8 +24,18 @@ CREATE TABLE songdb.songs
     length INT(11) NOT NULL,
     CONSTRAINT songs_fk0 FOREIGN KEY (author_id) REFERENCES songdb.authors (id)
 ) DEFAULT CHARSET=utf8;
-
 CREATE INDEX songs_fk0 ON songdb.songs (author_id);
+
+# Create ratings table
+CREATE TABLE songdb.ratings
+(
+  id INT(11) PRIMARY KEY NOT NULL,
+  song_id INT(11) NOT NULL,
+  rating INT(11) NOT NULL,
+  CONSTRAINT ratings_fk0 FOREIGN KEY (song_id) REFERENCES songdb.songs(id)
+) DEFAULT CHARSET=utf8;
+CREATE INDEX ratings_fk0 ON songdb.ratings(song_id);
+
 
 # Insert Authors
 INSERT INTO songdb.authors (id, name, country) VALUES (1, 'Neşet Ertaş', 'TUR');
