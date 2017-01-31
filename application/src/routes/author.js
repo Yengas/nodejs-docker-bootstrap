@@ -1,4 +1,5 @@
 const pool = require('../database');
+const log = require('../logger');
 
 /**
  * Function to list song authors.
@@ -11,6 +12,8 @@ module.exports.list = function(req, res){
     // Send response
     .then(result => res.json(result[0]))
     // Catch errors and report to user.
-    // TODO: log to stdout
-    .catch(err => res.json({ error: true, reason: err.message }));
+    .catch(err => {
+      log.error({ err }, 'An error occured while listing authors.');
+      res.json({ error: true, reason: err.message })
+    });
 };

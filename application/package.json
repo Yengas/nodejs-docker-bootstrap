@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Yengas/nodejs-docker-bootstrap#readme",
   "dependencies": {
+    "bunyan": "^1.8.5",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "mysql2": "^1.1.2"

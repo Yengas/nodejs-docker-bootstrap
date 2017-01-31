@@ -1,5 +1,6 @@
 const pool = require('./database');
 const config = require('./config');
+const log = require('./logger');
 const express = require('express');
 const authorController = require('./routes/author');
 const songController = require('./routes/song');
@@ -11,10 +12,9 @@ app.get('/author/get', authorController.list);
 pool
   .query('SELECT 1')
   .then(() => app.listen(config.port))
-  .then(() => console.log(`Service started working on port: ${config.port}!`))
+  .then(() => log.info({ port: config.port }, 'Service started working.'))
   .catch((err) => {
-    console.log(err);
-    console.log("An error has occured! Killing the application.");
+    log.error({ err }, "An error has occured! Killing the application.");
     process.exit(-1);
   });
 
