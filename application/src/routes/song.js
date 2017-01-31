@@ -5,6 +5,10 @@ function buildSearchQuery(params = {}){
   const parameters = [];
   // Create filter expressions for each filter in params
   const filters = {
+    'id': (id) => {
+      parameters.push(id);
+      return `songs.id = ${id}`;
+    },
     'text': (text) => {
       parameters.push(`%${text}%`, `%${text}%`);
       return `songs.title LIKE ? OR authors.name LIKE ?`;
@@ -32,7 +36,6 @@ function buildSearchQuery(params = {}){
                       // Concatenate each query with AND
                       .join('AND');
 
-  log.info({ expression, params }, 'Created query!');
   return [
     `
     SELECT
@@ -63,4 +66,11 @@ module.exports.list = function(req, res, body = {}){
 // See buildSearchQuery for parameters avaliable.
 module.exports.search = function(req, res){
   return module.exports.list(req, res, req.body);
+};
+
+// Returns a single song given an id.
+module.exports.get = function(req, res){
+  if(!req.params || !req.params.id)
+    return res.json({ error: true, reason: "No id given!" });
+  return module.exports.list(req, res, { id: req.params.id });
 };

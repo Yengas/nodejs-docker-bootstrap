@@ -13,9 +13,11 @@ app.use(bodyParser.json({ extended: true }));
 app.get('/healtz', require('./routes/healthz'));
 
 app.get('/author/get', authorController.list);
+app.get('/author/:id/get', authorController.get);
 app.get('/author/:id/songs', authorController.songs);
 
 app.get('/song/get', songController.list);
+app.get('/song/:id/get', songController.get);
 app.post('/song/search', songController.search);
 app.post('/song/:id/rate', ratingController.rate);
 

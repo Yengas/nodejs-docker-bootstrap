@@ -16,6 +16,21 @@ module.exports.list = function(req, res){
     });
 };
 
+module.exports.get = function(req, res){
+  if(!req.params.id)
+    return res.json({ error: true, reason: "No id was given!" });
+
+  pool
+    .query('SELECT id, name, country FROM authors WHERE id = ?', req.params.id)
+    // Send response
+    .then(result => res.json(result[0]))
+    // Catch errors and report to user.
+    .catch(err => {
+      log.error({ err }, 'An error occured while getting an author.');
+      res.json({ error: true, reason: err.message })
+    });
+};
+
 /**
  * Function to list songs for a given author.
  */
