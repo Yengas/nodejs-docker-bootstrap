@@ -1,0 +1,24 @@
+{
+  "name": "application",
+  "version": "0.0.1",
+  "description": "A sample backend service that lets you search a database of musics, and rate them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yengas/nodejs-docker-bootstrap.git"
+  },
+  "keywords": [
+    "nodejs",
+    "docker",
+    "bootstrap"
+  ],
+  "author": "Yengas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yengas/nodejs-docker-bootstrap/issues"
+  },
+  "homepage": "https://github.com/Yengas/nodejs-docker-bootstrap#readme"
+}

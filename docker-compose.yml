@@ -1,0 +1,30 @@
+version: '2'
+# Create networks to be used to isolate containers
+networks:
+  # Server network to hold database and backend
+  servernetwork: {}
+# Create named volumes to mount to containers.
+volumes:
+  # Create a named volume to hold database data
+  database-storage: {}
+# Define services to be run.
+services:
+  database:
+    image: mariadb:10.1
+    volumes:
+      - database-storage:/var/lib/mysql
+      # Link backup folder to a speacial folder in the container
+      # Mariadb entrypoint checks this folder and imports sql files if they weren't import before.
+      # This gives us the flexibility of running `docker-compose down -v` to return to a specific database state.
+      - ./database/backup:/docker-entrypoint-initdb.d
+    environment:
+      # Since we didn't set any password, default root password is empty.
+      # Make sure Mariadb accepts the empty password and runs.
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+    ports:
+      # Expose the Mysql port for local development.
+      # This is so we can connect to the database using `localhost` or the ip of the docker host.
+      - "3306:3306"
+    networks:
+      # Add the database service to the servernetwork.
+      - servernetwork
