@@ -7,13 +7,26 @@ const log = require('../logger');
 module.exports.list = function(req, res){
   pool
     .query('SELECT id, name, country FROM authors')
-    // Filter invalid results
-    .then(result => result && result.length > 0 ? Promise.resolve(result) : Promise.reject('Invalid result!'))
     // Send response
     .then(result => res.json(result[0]))
     // Catch errors and report to user.
     .catch(err => {
       log.error({ err }, 'An error occured while listing authors.');
       res.json({ error: true, reason: err.message })
+    });
+};
+
+/**
+ * Function to list songs for a given author.
+ */
+module.exports.songs = function(req, res){
+  pool
+    .query(
+      `SELECT id, title, youtbe_id, release_date, length FROM songs WHERE author_id = ?`,
+      [ req.params.id ]
+    ).then(result => res.json(result[0]))
+    .catch(err => {
+      log.error({ err, author: req.params.id }, 'An error occured while listing songs for an author.');
+      res.json({ error: true, reason: err.message });
     });
 };
