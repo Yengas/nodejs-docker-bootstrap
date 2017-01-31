@@ -1,0 +1,6 @@
+{
+  "host": "node-demo-database",
+  "user": "root",
+  "password": "",
+  "database": "songdb"
+}

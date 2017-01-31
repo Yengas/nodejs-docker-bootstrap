@@ -1,0 +1,99 @@
+# Create database Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: node-demo-database
+  namespace: demo
+spec:
+  # Run 1 instace of the database.
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: node-demo-database
+    spec:
+      containers:
+      # Replace this image name with your own image after building and pushing it.
+      # You can use a custom docker registry if you configure your kubernetes cluster to use it.
+      - name: node-demo-database
+        image: yengas/node-demo-database:latest
+        # Each port that is exposed by this pod.
+        ports:
+        - containerPort: 3306
+          name: demo-database
+          protocol: TCP
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "1"
+---
+# Create database Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-demo-database
+  namespace: demo
+spec:
+  selector:
+    app: node-demo-database
+  ports:
+  - name: demo-database
+    port: 3306
+    targetPort: 3306
+    protocol: TCP
+---
+# Create backend Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: node-demo
+  namespace: demo
+spec:
+  # Run 3 instaces of this application.
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: node-demo
+    spec:
+      containers:
+      - name: node-demo
+        # Replace this image name with your own image after building and pushing it.
+        # You can use a custom docker registry if you configure your kubernetes cluster to use it.
+        image: yengas/node-demo:latest
+        # Each port that is exposed by this pod.
+        ports:
+        - containerPort: 8080
+          name: demo
+          protocol: TCP
+        # Populate environment variables from a config map.
+        env:
+        - name: LISTEN_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: node-demo
+              key: port
+        - name: DATABASE_CONFIGURATION
+          valueFrom:
+            configMapKeyRef:
+              name: node-demo
+              key: database.json
+---
+# Create backend service with a NodePort.
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-demo
+  namespace: demo
+spec:
+  type: NodePort
+  selector:
+    app: node-demo
+  ports:
+  - name: demo
+    # Pods accessing this service inside kubernetes cluster will use this port
+    port: 8080
+    # This service will be accessible through each Kubernetes port under this port
+    nodePort: 30800
+    # This is the port the pods expose.
+    targetPort: 8080
+    protocol: TCP
