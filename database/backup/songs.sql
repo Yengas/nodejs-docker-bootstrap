@@ -8,7 +8,7 @@ SET NAMES utf8;
 # Create the authors table
 CREATE TABLE songdb.authors
 (
-    id INT(11) PRIMARY KEY NOT NULL,
+    id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(63) NOT NULL,
     country VARCHAR(3) NOT NULL
 ) DEFAULT CHARSET=utf8;
@@ -16,7 +16,7 @@ CREATE TABLE songdb.authors
 # Create the songs table
 CREATE TABLE songdb.songs
 (
-    id INT(11) PRIMARY KEY NOT NULL,
+    id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     author_id INT(11) NOT NULL,
     title VARCHAR(127) NOT NULL,
     youtube_id VARCHAR(24) NOT NULL,
@@ -29,7 +29,7 @@ CREATE INDEX songs_fk0 ON songdb.songs (author_id);
 # Create ratings table
 CREATE TABLE songdb.ratings
 (
-  id INT(11) PRIMARY KEY NOT NULL,
+  id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
   song_id INT(11) NOT NULL,
   rating INT(11) NOT NULL,
   CONSTRAINT ratings_fk0 FOREIGN KEY (song_id) REFERENCES songdb.songs(id)
