@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 # Create networks to be used to isolate containers
 networks:
   # Server network to hold database and backend
@@ -28,3 +28,18 @@ services:
     networks:
       # Add the database service to the servernetwork.
       - servernetwork
+  application:
+    build:
+      context: ./application
+      dockerfile: Dockerfile-development
+    volumes:
+      - ./application:/application/code
+    env_file:
+      # Get the configuration from the dotenv file.
+      - ./application/.env.example
+    ports:
+      - "8080:8080"
+    networks:
+      - servernetwork
+    depends_on:
+      - database

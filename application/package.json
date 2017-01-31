@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/Yengas/nodejs-docker-bootstrap/issues"
   },
-  "homepage": "https://github.com/Yengas/nodejs-docker-bootstrap#readme"
+  "homepage": "https://github.com/Yengas/nodejs-docker-bootstrap#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "mysql2": "^1.1.2"
+  }
 }
