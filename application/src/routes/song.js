@@ -31,7 +31,7 @@ function buildSearchQuery(params = {}){
     expression = Object.keys(params)
                       // Filter keys that doesn't have a values
                       .filter(key => params[key])
-                      // For each key, call the coressponding function and fill parameters + get query.
+                      // For each key, call the corresponding function and fill parameters + get query.
                       .map(key => '(' + filters[key](params[key]) + ')')
                       // Concatenate each query with AND
                       .join('AND');
@@ -57,13 +57,13 @@ module.exports.list = function(req, res, body = {}){
     .query(query, params)
     .then(result => res.json(result[0]))
     .catch(err => {
-      log.error({ err }, 'An error occured while listing songs.');
+      log.error({ err }, 'An error occurred while listing songs.');
       res.json({ error: true, reason: err.message });
     });
 };
 
 // Returns a list of songs that searched via some predefined variables.
-// See buildSearchQuery for parameters avaliable.
+// See buildSearchQuery for parameters available.
 module.exports.search = function(req, res){
   return module.exports.list(req, res, req.body);
 };

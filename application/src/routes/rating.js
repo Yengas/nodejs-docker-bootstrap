@@ -17,7 +17,7 @@ module.exports.rate = function(req, res){
   // Will fail if the song doesn't exists because of the foreign key constraint.
   pool
     .query(`INSERT INTO ratings (song_id, rating) VALUES (?, ?)`, [req.params.id, req.body.rating])
-    .then(() => res.json({ succeses: true, message: "Ok!" }))
+    .then(() => res.json({ success: true, message: "Ok!" }))
     .catch(err => {
       log.error({ err, params: { song: req.params.id, rating: req.body.rating }}, "Couldn't rate a song.");
       res.json({ error: true, reason: err.message });

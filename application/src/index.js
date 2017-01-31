@@ -10,7 +10,7 @@ const app = express();
 
 app.use(bodyParser.json({ extended: true }));
 
-app.get('/healtz', require('./routes/healthz'));
+app.get('/healthz', require('./routes/healthz'));
 
 app.get('/author/get', authorController.list);
 app.get('/author/:id/get', authorController.get);
@@ -26,7 +26,7 @@ pool
   .then(() => app.listen(config.port))
   .then(() => log.info({ port: config.port }, 'Service started working.'))
   .catch((err) => {
-    log.error({ err }, "An error has occured! Killing the application.");
+    log.error({ err }, "An error has occurred! Killing the application.");
     process.exit(-1);
   });
 

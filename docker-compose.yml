@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 # Create networks to be used to isolate containers
 networks:
   # Server network to hold database and backend

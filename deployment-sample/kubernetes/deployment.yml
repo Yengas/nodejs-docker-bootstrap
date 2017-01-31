@@ -5,7 +5,7 @@ metadata:
   name: node-demo-database
   namespace: demo
 spec:
-  # Run 1 instace of the database.
+  # Run 1 instance of the database.
   replicas: 1
   template:
     metadata:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       # Replace this image name with your own image after building and pushing it.
-      # You can use a custom docker registry if you configure your kubernetes cluster to use it.
+      # You can use a custom docker registry if you configure your Kubernetes cluster to use it.
       - name: node-demo-database
         image: yengas/node-demo-database:latest
         # Each port that is exposed by this pod.
@@ -48,7 +48,7 @@ metadata:
   name: node-demo
   namespace: demo
 spec:
-  # Run 3 instaces of this application.
+  # Run 3 instances of this application.
   replicas: 3
   template:
     metadata:
@@ -58,7 +58,7 @@ spec:
       containers:
       - name: node-demo
         # Replace this image name with your own image after building and pushing it.
-        # You can use a custom docker registry if you configure your kubernetes cluster to use it.
+        # You can use a custom docker registry if you configure your Kubernetes cluster to use it.
         image: yengas/node-demo:latest
         # Each port that is exposed by this pod.
         ports:
@@ -90,7 +90,7 @@ spec:
     app: node-demo
   ports:
   - name: demo
-    # Pods accessing this service inside kubernetes cluster will use this port
+    # Pods accessing this service inside Kubernetes cluster will use this port
     port: 8080
     # This service will be accessible through each Kubernetes port under this port
     nodePort: 30800

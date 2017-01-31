@@ -11,7 +11,7 @@ module.exports.list = function(req, res){
     .then(result => res.json(result[0]))
     // Catch errors and report to user.
     .catch(err => {
-      log.error({ err }, 'An error occured while listing authors.');
+      log.error({ err }, 'An error occurred while listing authors.');
       res.json({ error: true, reason: err.message })
     });
 };
@@ -26,7 +26,7 @@ module.exports.get = function(req, res){
     .then(result => res.json(result[0]))
     // Catch errors and report to user.
     .catch(err => {
-      log.error({ err }, 'An error occured while getting an author.');
+      log.error({ err }, 'An error occurred while getting an author.');
       res.json({ error: true, reason: err.message })
     });
 };
@@ -37,11 +37,11 @@ module.exports.get = function(req, res){
 module.exports.songs = function(req, res){
   pool
     .query(
-      `SELECT id, title, youtbe_id, release_date, length FROM songs WHERE author_id = ?`,
+      `SELECT id, title, youtube_id, release_date, length FROM songs WHERE author_id = ?`,
       [ req.params.id ]
     ).then(result => res.json(result[0]))
     .catch(err => {
-      log.error({ err, author: req.params.id }, 'An error occured while listing songs for an author.');
+      log.error({ err, author: req.params.id }, 'An error occurred while listing songs for an author.');
       res.json({ error: true, reason: err.message });
     });
 };
