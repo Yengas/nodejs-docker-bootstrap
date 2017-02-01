@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:6.9.1
+FROM mhart/alpine-node:6.9.5
 
 # Install global Dependencies
 RUN npm install -g nodemon

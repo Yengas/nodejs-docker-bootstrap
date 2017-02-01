@@ -1,6 +1,6 @@
 # Dockerfile to build `binary` image which will have everything packages like dependenecies and codes.
 # This image can be configured and run with environment variables.
-FROM mhart/alpine-node:6.9.1
+FROM mhart/alpine-node:6.9.5
 
 WORKDIR /application
 
