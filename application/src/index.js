@@ -1,16 +1,22 @@
-const pool = require('./database');
 const config = require('./config');
 const log = require('./logger');
+const utils = require('./utils');
+const pool = require('./database')(config.database);
 const express = require('express');
 const bodyParser = require('body-parser');
-const authorController = require('./routes/author');
-const songController = require('./routes/song');
-const ratingController = require('./routes/rating');
+
+const {
+  author: authorController,
+  healthz: healthzController,
+  song: songController,
+  rating: ratingController
+} = utils.buildControllers('./routes/', { pool, log }, config.routes);
+
 const app = express();
 
 app.use(bodyParser.json({ extended: true }));
 
-app.get('/healthz', require('./routes/healthz'));
+app.get('/healthz', healthzController.ping);
 
 app.get('/author/get', authorController.list);
 app.get('/author/:id/get', authorController.get);
@@ -21,12 +27,13 @@ app.get('/song/:id/get', songController.get);
 app.post('/song/search', songController.search);
 app.post('/song/:id/rate', ratingController.rate);
 
-pool
-  .query('SELECT 1')
-  .then(() => app.listen(config.port))
-  .then(() => log.info({ port: config.port }, 'Service started working.'))
-  .catch((err) => {
+(async function(){
+  try{
+    await pool.query('SELECT 1');
+    await app.listen(config.port);
+    log.info({ port: config.port }, 'Service started working.');
+  }catch(err){
     log.error({ err }, "An error has occurred! Killing the application.");
     process.exit(-1);
-  });
-
+  }
+})();

@@ -27,12 +27,12 @@ services:
   application:
     build:
       context: ./application
-      dockerfile: Dockerfile-development
+      dockerfile: development.Dockerfile
     volumes:
       - ./application:/application/code
     env_file:
       # Get the configuration from the dotenv file.
-      - ./application/.env.example
+      - ./application/.example.env
     ports:
       - "8080:8080"
     networks:

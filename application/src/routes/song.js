@@ -1,6 +1,3 @@
-const log = require('../logger');
-const pool = require('../database');
-
 function buildSearchQuery(params = {}){
   const parameters = [];
   // Create filter expressions for each filter in params
@@ -49,28 +46,32 @@ function buildSearchQuery(params = {}){
   ];
 }
 
-// Returns the list of all songs.
-module.exports.list = function(req, res, body = {}){
-  const [query, params] =  buildSearchQuery(body || {});
+module.exports = ({ pool }) => {
+  function listControllerFunction(req, res, body = {}){
+    const [query, params] =  buildSearchQuery(body || {});
 
-  pool
-    .query(query, params)
-    .then(result => res.json(result[0]))
-    .catch(err => {
-      log.error({ err }, 'An error occurred while listing songs.');
-      res.json({ error: true, reason: err.message });
-    });
-};
+    return pool
+      .query(query, params)
+      .then(result => res.json(result[0]))
+      .catch(err => {
+        log.error({ err }, 'An error occurred while listing songs.');
+        res.json({ error: true, reason: err.message });
+      });
+  }
 
-// Returns a list of songs that searched via some predefined variables.
-// See buildSearchQuery for parameters available.
-module.exports.search = function(req, res){
-  return module.exports.list(req, res, req.body);
-};
-
-// Returns a single song given an id.
-module.exports.get = function(req, res){
-  if(!req.params || !req.params.id)
-    return res.json({ error: true, reason: "No id given!" });
-  return module.exports.list(req, res, { id: req.params.id });
+  return {
+    // Returns the list of all songs.
+    list: listControllerFunction,
+    // Returns a list of songs that searched via some predefined variables.
+    // See buildSearchQuery for parameters available.
+    search: function(req, res){
+      return listControllerFunction(req, res, req.body);
+    },
+    // Returns a single song given an id.
+    get: function(req, res){
+      if(!req.params || !req.params.id)
+        return res.json({ error: true, reason: "No id given!" });
+      return module.exports.list(req, res, { id: req.params.id });
+    }
+  }
 };

@@ -42,7 +42,7 @@ The backend application can be packaged into a docker image that can be run with
 This project is built and pushed to `docker.io` under the name `yengas/node-demo:latest`. You can either build your own version, or  run:
 
 ```
-docker run -it --env-file ./application/.env.example --add-host database:192.168.1.105 yengas/node-demo:latest
+docker run -it --env-file ./application/.example.env --add-host database:192.168.1.105 yengas/node-demo:latest
 ```
 
 where the `192.168.1.105` points to your database's ip which should be accessible through docker container. For me, this is my computers local ip.
@@ -57,7 +57,7 @@ docker run -it yengas/node-demo:latest npm test
 docker push yengas/node-demo:latest
 ```
 
-To run: `docker run -it --env-file ./application/.env.example --add-host database:192.168.1.105 yengas/node-demo:latest`. You could also use the built and pushed image in your container runtime configuration to start instances of this application. Then you could use something like Kubernetes's [ConfigMap](https://kubernetes.io/docs/user-guide/configmap/) to bind environment variables from a dynamic database. You can check the [deployment-sample/kubernetes](./deployment-sample/kubernetes) to see a example configuration.
+To run: `docker run -it --env-file ./application/.example.env --add-host database:192.168.1.105 yengas/node-demo:latest`. You could also use the built and pushed image in your container runtime configuration to start instances of this application. Then you could use something like Kubernetes's [ConfigMap](https://kubernetes.io/docs/user-guide/configmap/) to bind environment variables from a dynamic database. You can check the [deployment-sample/kubernetes](./deployment-sample/kubernetes) to see a example configuration.
 
 ### 3. On a host machine with Nodejs and dependencies installed
 This project uses `.env` files to easily configure docker container environment variables. It also uses a Nodejs module called `dotenv`. This module can populate the `process.env` variable of an application. The entrypoint script of this application is configured to look for a `.env` file under `application/.env` and use it to populate the `process.env`.
